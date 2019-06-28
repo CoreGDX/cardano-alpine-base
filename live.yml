@@ -1,0 +1,8 @@
+version: "2"
+services:
+  cardano-node:
+    build: .
+    ports:
+      - 8848:8848
+    expose:
+      - "8848"
