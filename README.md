@@ -14,6 +14,10 @@ Run the [Cardano Testnet](https://testnet.iohkdev.io/cardano/) using a lightweig
 - Pull/Clone this Repository
 - Run ```docker-compose -f live.yml up```
 
+#### Cleanup
+
+- Run ```sh nuke.sh```
+
 #### Acknowledgements
 
 This tool relies on the following open source projects.
