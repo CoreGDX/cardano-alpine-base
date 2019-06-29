@@ -1,7 +1,7 @@
 [![Twitter: @DavidArayan](https://img.shields.io/badge/contact-DavidArayan-blue.svg?style=flat)](https://twitter.com/DavidArayan)
 [![License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat)](LICENSE)
 
-Run the [Cardano Testnet](https://testnet.iohkdev.io/cardano/) using a lightweight [Docker](https://www.docker.com/) Alpine Image. Prebuilt images are hosted in [Docker Hub](https://hub.docker.com/r/coregdx/jormungandr).
+Run the [Cardano Testnet](https://testnet.iohkdev.io/cardano/) using a lightweight [Docker](https://www.docker.com/) [Alpine Image](https://hub.docker.com/_/alpine). Prebuilt images are hosted in [Docker Hub](https://hub.docker.com/r/coregdx/jormungandr).
 
 * * *
 
