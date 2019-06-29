@@ -29,8 +29,9 @@ RUN apk add --update --no-cache \
 RUN git clone --recurse-submodules ${REPO} src && \
 	cd src && \
 	git checkout tags/v${REPO_VERSION} && \
-	cargo install --path out/jormungandr && \
-	cargo install --path out/jcli && \
+	cargo build --release && \
+	cargo install --path jormungandr && \
+	cargo install --path jcli && \
 	cd ../
 
 # Update the environment path
