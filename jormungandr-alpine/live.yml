@@ -1,0 +1,9 @@
+version: "2"
+services:
+  jormungandr-alpine:
+    build: .
+    ports:
+      - 8848:8848
+    expose:
+      - "8848"
+    command: tail -F anything

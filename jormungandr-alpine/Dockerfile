@@ -48,5 +48,3 @@ RUN apk del git \
 	openssl-dev \
 	protobuf \
 	protobuf-dev
-
-RUN apk cache clean
