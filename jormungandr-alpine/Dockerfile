@@ -1,7 +1,11 @@
 # Alpine edge supports RUST 1.35, the minimum version
 # required for compiling input-output-hk/jormungandr
 FROM alpine:edge
+LABEL MAINTAINER CoreGDX
 WORKDIR /usr/cardano/jormungandr
+
+# The port we will be using for the node
+ENV REST_PORT 8448
 
 # The URL to clone the repository from
 ENV REPO https://github.com/input-output-hk/jormungandr
@@ -34,8 +38,23 @@ RUN git clone --recurse-submodules ${REPO} src && \
 	cargo install --path jcli && \
 	cd ../
 
+# copy scripts, run bootstrap and delete source files that are no longer needed
+RUN export PATH=$HOME/.cargo/bin:$PATH && \
+	cd src/scripts && \
+	chmod +x bootstrap && \
+	./bootstrap -p ${REST_PORT} && \
+	cd ../../ && \
+	mkdir bootstrap && \
+	cp -pR src/scripts/block-0.bin bootstrap/block-0.bin && \
+	cp -pR src/scripts/config.yaml bootstrap/config.yaml && \
+	cp -pR src/scripts/pool-secret1.yaml bootstrap/pool-secret1.yaml && \
+	mkdir bin && \
+	cp -pR $HOME/.cargo/bin/jormungandr bin/jormungandr && \
+	cp -pR $HOME/.cargo/bin/jcli bin/jcli && \
+	rm -rf src $HOME/.cargo
+
 # Update the environment path
-ENV PATH "$PATH:/root/.cargo/bin"
+ENV PATH "$PATH:/usr/cardano/jormungandr/bin"
 
 # cleanup caches and stuff used to compile the source
 # so we can make the image as small as possible.
@@ -44,7 +63,7 @@ RUN apk del git \
 	curl \
 	rust \
 	cargo \
-	openssl \
 	openssl-dev \
-	protobuf \
 	protobuf-dev
+
+EXPOSE ${REST_PORT}
