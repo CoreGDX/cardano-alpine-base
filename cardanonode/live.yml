@@ -4,9 +4,6 @@ services:
     build: .
     ports:
       - 8848:8848
-      - 80:80
-      - 443:443
     expose:
       - "8848"
-      - "80"
-      - "443"
+    command: tail -F anything

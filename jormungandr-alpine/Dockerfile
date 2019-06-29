@@ -1,11 +1,7 @@
 # Alpine edge supports RUST 1.35, the minimum version
 # required for compiling input-output-hk/jormungandr
 FROM alpine:edge
-WORKDIR /usr
-
-# ports to be used for accessing the node
-ENV ACCESS_PORT_HTTP 80
-ENV ACCESS_PORT_HTTPS 443
+WORKDIR /usr/cardano/jormungandr
 
 # The URL to clone the repository from
 ENV REPO https://github.com/input-output-hk/jormungandr
@@ -33,22 +29,23 @@ RUN apk add --update --no-cache \
 RUN git clone --recurse-submodules ${REPO} src && \
 	cd src && \
 	git checkout tags/v${REPO_VERSION} && \
-	cargo install --path jormungandr && \
-	cargo install --path jcli && \
+	cargo install --path out/jormungandr && \
+	cargo install --path out/jcli && \
 	cd ../
 
 # Update the environment path
 ENV PATH "$PATH:/root/.cargo/bin"
 
-# Expose the ports we will be using
-EXPOSE ${ACCESS_PORT_HTTP}
-EXPOSE ${ACCESS_PORT_HTTPS}
+# cleanup caches and stuff used to compile the source
+# so we can make the image as small as possible.
+# containers extending can re-add them if needed
+RUN apk del git \
+	curl \
+	rust \
+	cargo \
+	openssl \
+	openssl-dev \
+	protobuf \
+	protobuf-dev
 
-# Run the bootstrap script
-#RUN cd src/scripts && \
-#	chmod +x bootstrap && \
-#	./bootstrap && \
-#	cd ../
-
-# Run the local blockchain
-#ENTRYPOINT ["jormungandr", "--genesis-block block-0.bin --config config.yaml --secret poolsecret1.yaml"]
+RUN apk cache clean
