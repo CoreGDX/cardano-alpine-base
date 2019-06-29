@@ -1,7 +1,7 @@
 # Alpine edge supports RUST 1.35, the minimum version
 # required for compiling input-output-hk/jormungandr
 FROM alpine:edge
-LABEL MAINTAINER CoreGDX
+LABEL MAINTAINER CoreGDX-(DavidArayan)
 WORKDIR /usr/cardano/jormungandr
 
 # The port we will be using for the node
