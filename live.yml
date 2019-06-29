@@ -3,7 +3,7 @@ services:
   jormungandr:
     build: .
     ports:
-      - 8848:8848
+      - 8448:8448
     expose:
-      - "8848"
-    command: tail -F anything
+      - "8448"
+    command: jormungandr --genesis-block ./block-0.bin --config ./config.yaml --secret ./pool-secret1.yaml
