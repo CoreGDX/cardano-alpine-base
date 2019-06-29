@@ -3,6 +3,10 @@
 FROM alpine:edge
 WORKDIR /usr
 
+# ports to be used for accessing the node
+ENV ACCESS_PORT_HTTP 80
+ENV ACCESS_PORT_HTTPS 443
+
 # The URL to clone the repository from
 ENV REPO https://github.com/input-output-hk/jormungandr
 # The Commit hash to use (specific commit) to pull
@@ -23,12 +27,28 @@ RUN apk add --update --no-cache \
 	openssl=1.1.1c-r0 \
 	openssl-dev=1.1.1c-r0 \
 	protobuf=3.6.1-r1 \
-	protobuf-dev=3.6.1-r1 \
-	g++=8.3.0-r0
+	protobuf-dev=3.6.1-r1 
 
 # Pull the cardano-node repository, checkout the specific commit and build
 RUN git clone --recurse-submodules ${REPO} src && \
 	cd src && \
 	git checkout tags/v${REPO_VERSION} && \
 	cargo install --path jormungandr && \
-	cargo install --path jcli
+	cargo install --path jcli && \
+	cd ../
+
+# Update the environment path
+ENV PATH "$PATH:/root/.cargo/bin"
+
+# Expose the ports we will be using
+EXPOSE ${ACCESS_PORT_HTTP}
+EXPOSE ${ACCESS_PORT_HTTPS}
+
+# Run the bootstrap script
+#RUN cd src/scripts && \
+#	chmod +x bootstrap && \
+#	./bootstrap && \
+#	cd ../
+
+# Run the local blockchain
+#ENTRYPOINT ["jormungandr", "--genesis-block block-0.bin --config config.yaml --secret poolsecret1.yaml"]
