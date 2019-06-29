@@ -3,7 +3,7 @@
 
 Run the [Cardano Testnet](https://testnet.iohkdev.io/cardano/) using a lightweight [Docker](https://www.docker.com/) [Alpine Image](https://hub.docker.com/_/alpine). Prebuilt images are hosted in [Docker Hub](https://hub.docker.com/r/coregdx/jormungandr).
 
-* * *
+---
 
 #### Required Tools
 
@@ -12,11 +12,11 @@ Run the [Cardano Testnet](https://testnet.iohkdev.io/cardano/) using a lightweig
 #### Run the local testnet
 
 - Pull/Clone this Repository
-- Run ```docker-compose -f live.yml up```
+- Run `docker-compose -f live.yml up`
 
 #### Cleanup
 
-- Run ```sh nuke.sh```
+- Run `sh nuke.sh`
 
 #### Acknowledgements
 
