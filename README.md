@@ -20,7 +20,7 @@ Run the [Cardano Testnet](https://testnet.iohkdev.io/cardano/) using a lightweig
 
 #### Using Base Image 
 
-Pre-built Alpine Images are hosted in [Docker Hub](https://hub.docker.com/r/coregdx/jormungandr) and can be used as a base for more advanced functionality. Grab the latest version and use the following in your Dockerfile.
+Prebuilt Alpine Images are hosted in [Docker Hub](https://hub.docker.com/r/coregdx/jormungandr) and can be used as a base for more advanced functionality. Grab the latest version and use the following in your Dockerfile.
 
 `FROM coregdx/jormungandr:release-0.2.3-rc0`
 
