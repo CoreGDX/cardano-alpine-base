@@ -6,4 +6,4 @@ services:
       - 8448:8448
     expose:
       - "8448"
-    command: tail -F anything
+    command: jormungandr --genesis-block ./bootstrap/block-0.bin --config ./bootstrap/config.yaml --secret ./bootstrap/pool-secret1.yaml

@@ -31,10 +31,13 @@ RUN apk add --update --no-cache \
 	protobuf=3.6.1-r1 \
 	protobuf-dev=3.6.1-r1 && \
 	# Pull the cardano-node repository, checkout the specific commit and build
-	git clone --recurse-submodules ${REPO} src && \
+	git clone --depth 1 ${REPO} src && \
 	cd src && \
+	git fetch --depth 1 --tags && \
 	git checkout tags/v${REPO_VERSION} && \
-	cargo build --release && \
+	git submodule sync && \
+	git submodule update --init && \
+	cargo build --release && \ 
 	cargo install --path jormungandr && \
 	cargo install --path jcli && \
 	cd ../ && \
