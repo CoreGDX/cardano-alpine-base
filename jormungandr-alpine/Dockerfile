@@ -28,8 +28,8 @@ RUN apk add --update --no-cache \
 	cargo=1.35.0-r0 \
 	openssl=1.1.1c-r0 \
 	openssl-dev=1.1.1c-r0 \
-	protobuf=3.6.1-r1 \
-	protobuf-dev=3.6.1-r1 && \
+	protobuf=3.8.0-r0 \
+	protobuf-dev=3.8.0-r0 && \
 	# Pull the cardano-node repository, checkout the specific commit and build
 	git clone --depth 1 ${REPO} src && \
 	cd src && \
