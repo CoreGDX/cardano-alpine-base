@@ -11,7 +11,7 @@ ENV REST_PORT 8448
 ENV REPO https://github.com/input-output-hk/jormungandr
 
 # The Commit hash to use (specific commit) to pull
-ENV REPO_VERSION 0.2.4
+ENV REPO_VERSION 0.3.0
 
 # Path to the protoc (protobuf) compiler - see https://github.com/protocolbuffers/protobuf
 # required by jormungandr_src/chain-deps/network-grpc 
@@ -24,8 +24,8 @@ ENV PROTOC /usr/bin/protoc
 RUN apk add --update --no-cache \
 	git=2.22.0-r0 \
 	curl=7.65.1-r0 \
-	rust=1.35.0-r0 \
-	cargo=1.35.0-r0 \
+	rust=1.36.0-r0 \
+	cargo=1.36.0-r0 \
 	openssl=1.1.1c-r0 \
 	openssl-dev=1.1.1c-r0 \
 	protobuf=3.8.0-r0 \
