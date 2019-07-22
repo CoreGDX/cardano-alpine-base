@@ -22,7 +22,7 @@ ENV PROTOC /usr/bin/protoc
 # if Alpine updates. Get the latest version details from
 # https://pkgs.alpinelinux.org/packages
 RUN apk add --update --no-cache \
-	git=2.22.0-r1 \
+	git=2.22.0-r2 \
 	curl=7.65.3-r0 \
 	rust=1.36.0-r0 \
 	cargo=1.36.0-r0 \
