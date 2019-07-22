@@ -11,7 +11,7 @@ ENV REST_PORT 8448
 ENV REPO https://github.com/input-output-hk/jormungandr
 
 # The Commit hash to use (specific commit) to pull
-ENV REPO_VERSION 0.3.0
+ENV REPO_VERSION 0.3.1
 
 # Path to the protoc (protobuf) compiler - see https://github.com/protocolbuffers/protobuf
 # required by jormungandr_src/chain-deps/network-grpc 
@@ -22,8 +22,8 @@ ENV PROTOC /usr/bin/protoc
 # if Alpine updates. Get the latest version details from
 # https://pkgs.alpinelinux.org/packages
 RUN apk add --update --no-cache \
-	git=2.22.0-r0 \
-	curl=7.65.1-r0 \
+	git=2.22.0-r1 \
+	curl=7.65.3-r0 \
 	rust=1.36.0-r0 \
 	cargo=1.36.0-r0 \
 	openssl=1.1.1c-r0 \
