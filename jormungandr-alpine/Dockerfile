@@ -11,7 +11,7 @@ ENV REST_PORT 8448
 ENV REPO https://github.com/input-output-hk/jormungandr
 
 # The Commit hash to use (specific commit) to pull
-ENV REPO_VERSION 0.3.3
+ENV REPO_VERSION 0.5.2
 
 # Path to the protoc (protobuf) compiler - see https://github.com/protocolbuffers/protobuf
 # required by jormungandr_src/chain-deps/network-grpc 
@@ -22,14 +22,14 @@ ENV PROTOC /usr/bin/protoc
 # if Alpine updates. Get the latest version details from
 # https://pkgs.alpinelinux.org/packages
 RUN apk add --update --no-cache \
-	git=2.23.0-r0 \
-	curl=7.65.3-r0 \
-	rust=1.36.0-r0 \
-	cargo=1.36.0-r0 \
-	openssl=1.1.1c-r0 \
-	openssl-dev=1.1.1c-r0 \
-	protobuf=3.8.0-r0 \
-	protobuf-dev=3.8.0-r0 && \
+	git=2.23.0-r1 \
+	curl=7.66.0-r0 \
+	rust=1.37.0-r0 \
+	cargo=1.37.0-r0 \
+	openssl=1.1.1d-r2 \
+	openssl-dev=1.1.1d-r2 \
+	protobuf=3.9.1-r1 \
+	protobuf-dev=3.9.1-r1 && \
 	# Pull the cardano-node repository, checkout the specific commit and build
 	git clone --depth 1 ${REPO} src && \
 	cd src && \
