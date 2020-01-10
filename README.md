@@ -1,3 +1,7 @@
+<h3 align="center">
+  <img src="graphics/icon.png?raw=true" alt="EzySlice Logo" width="700">
+</h3>
+
 [![Twitter: @DavidArayan](https://img.shields.io/badge/contact-DavidArayan-blue.svg?style=flat)](https://twitter.com/DavidArayan)
 [![License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat)](LICENSE)
 
@@ -9,10 +13,11 @@ Run the [Cardano Testnet](https://testnet.iohkdev.io/cardano/) using a lightweig
 
 * Install [Docker](https://www.docker.com/) for Mac, Win or Linux
 
-#### Run the local testnet
+#### Local Build
 
 * Pull/Clone this Repository
-* Run `docker-compose -f live.yml up` 
+* Navigate to `jormungandr-alpine` 
+* Run `docker-compose -f live.yml build` 
 
 #### Cleanup
 
@@ -22,7 +27,7 @@ Run the [Cardano Testnet](https://testnet.iohkdev.io/cardano/) using a lightweig
 
 Prebuilt Alpine Images are hosted in [Docker Hub](https://hub.docker.com/r/coregdx/jormungandr) and can be used as a base for more advanced functionality. Grab the latest version and use the following in your Dockerfile.
 
-`FROM coregdx/jormungandr:release-0.5.2-rc0` 
+`FROM coregdx/jormungandr:release-[VERSION]` 
 
 #### Acknowledgements
 
