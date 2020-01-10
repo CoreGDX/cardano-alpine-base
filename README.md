@@ -5,7 +5,7 @@
 [![Twitter: @DavidArayan](https://img.shields.io/badge/contact-DavidArayan-blue.svg?style=flat)](https://twitter.com/DavidArayan)
 [![License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat)](LICENSE)
 
-Run the [Cardano Testnet](https://testnet.iohkdev.io/cardano/) using a lightweight [Docker](https://www.docker.com/) [Alpine Image](https://hub.docker.com/_/alpine). Prebuilt images are hosted in [Docker Hub](https://hub.docker.com/r/coregdx/jormungandr).
+Run a [Cardano Jormungandr (Rust) Node](https://testnet.iohkdev.io/cardano/) using a lightweight [Docker Alpine Linux Image](https://hub.docker.com/_/alpine). Prebuilt images are hosted in [Docker Hub](https://hub.docker.com/r/coregdx/jormungandr) and available to the public under the permissive [MIT](LICENSE) License.
 
 ---
 
@@ -25,7 +25,7 @@ Run the [Cardano Testnet](https://testnet.iohkdev.io/cardano/) using a lightweig
 
 #### Using Base Image
 
-Prebuilt Alpine Images are hosted in [Docker Hub](https://hub.docker.com/r/coregdx/jormungandr) and can be used as a base for more advanced functionality. Grab the latest version and use the following in your Dockerfile.
+Prebuilt Images are hosted in [Docker Hub](https://hub.docker.com/r/coregdx/jormungandr) and can be used as a base for more advanced functionality. Grab the latest version and use the following in your Dockerfile.
 
 `FROM coregdx/jormungandr:release-[VERSION]` 
 
