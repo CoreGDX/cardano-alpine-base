@@ -1,4 +1,6 @@
-version: "2"
+version: "3.7"
 services:
   jormungandr-alpine:
     build: .
+    container_name: coregdx/jormungandr
+    image: coregdx/jormungandr:latest

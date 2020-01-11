@@ -7,5 +7,5 @@
 # example
 # sh push.sh 0.8.5-rc1
 echo "pushing: coregdx/jormungandr:release-$1"
-docker tag jormungandr-alpine_jormungandr-alpine:latest coregdx/jormungandr:release-$1
+docker tag coregdx/jormungandr:latest coregdx/jormungandr:release-$1
 docker push coregdx/jormungandr:release-$1
