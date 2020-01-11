@@ -2,7 +2,3 @@ version: "2"
 services:
   jormungandr-alpine:
     build: .
-    ports:
-      - 8448:8448
-    expose:
-      - "8448"
