@@ -8,7 +8,7 @@ WORKDIR /usr/cardano/jormungandr
 ENV REPO https://github.com/input-output-hk/jormungandr
 
 # The Commit hash to use (specific commit) to pull
-ENV REPO_VERSION 0.8.5
+ENV REPO_VERSION 0.8.6
 
 # Path to the protoc (protobuf) compiler - see https://github.com/protocolbuffers/protobuf
 # required by jormungandr_src/chain-deps/network-grpc 
