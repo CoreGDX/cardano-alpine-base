@@ -1,8 +1,7 @@
-# Alpine edge supports RUST 1.35, the minimum version
-# required for compiling input-output-hk/jormungandr
+# Ensure to use a version of alpine that supports
+# RUST 1.35 as a minimum
 FROM alpine:3.11
 LABEL MAINTAINER CoreGDX-(DavidArayan)
-WORKDIR /usr/cardano/jormungandr
 
 # The URL to clone the repository from
 ENV REPO https://github.com/input-output-hk/jormungandr
@@ -10,9 +9,19 @@ ENV REPO https://github.com/input-output-hk/jormungandr
 # The Commit hash to use (specific commit) to pull
 ENV REPO_VERSION 0.8.6
 
+# Genesis config information
+ENV GENESIS_HASH 8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676
+ENV CONFIG_YAML_URL https://hydra.iohk.io/build/1561591/download/1/itn_rewards_v1-config.yaml
+ENV GENESIS_YAML_URL https://hydra.iohk.io/build/1561591/download/1/itn_rewards_v1-genesis.yaml
+
 # Path to the protoc (protobuf) compiler - see https://github.com/protocolbuffers/protobuf
 # required by jormungandr_src/chain-deps/network-grpc 
 ENV PROTOC /usr/bin/protoc
+
+# Path to the base directory that we will work with
+ENV BASEDIR /usr/cardano/jormungandr
+
+WORKDIR ${BASEDIR}
 
 # Install required tools and packages
 # Ensure to update the versions of the packages
@@ -43,6 +52,11 @@ RUN apk add --update --no-cache \
 	cp -pR $HOME/.cargo/bin/jormungandr bin/jormungandr && \
 	cp -pR $HOME/.cargo/bin/jcli bin/jcli && \
 	rm -rf src $HOME/.cargo && \
+	mkdir config && \
+	# download and save the config information needed to run the node
+	curl -o config/config.yaml ${CONFIG_YAML_URL} && \
+	curl -o config/genesis.yaml ${GENESIS_YAML_URL} && \
+	echo ${GENESIS_HASH} > config/genesis_hash.txt && \
 	# cleanup caches and stuff used to compile the source
 	# so we can make the image as small as possible.
 	# containers extending can re-add them if needed
@@ -55,6 +69,12 @@ RUN apk add --update --no-cache \
 
 # Update the environment path
 ENV PATH "$PATH:/usr/cardano/jormungandr/bin"
+
 # Easy access to the compiled executables from environment variables
-ENV JORMUNGANDR_PATH "/usr/cardano/jormungandr/bin/jormungandr"
-ENV JCLI_PATH "/usr/cardano/jormungandr/bin/jcli"
+ENV JORMUNGANDR_PATH ${BASEDIR}/bin/jormungandr
+ENV JCLI_PATH ${BASEDIR}/bin/jcli
+
+# Easy access to the config information from environment variables
+ENV CONFIG_YAML_PATH ${BASEDIR}/config/config.yaml
+ENV GENESIS_YAML_PATH ${BASEDIR}/config/genesis.yaml
+ENV GENESIS_HASH_PATH ${BASEDIR}/config/genesis_hash.txt
