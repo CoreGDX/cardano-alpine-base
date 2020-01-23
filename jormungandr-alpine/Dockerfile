@@ -7,7 +7,7 @@ LABEL MAINTAINER CoreGDX-(DavidArayan)
 ENV REPO https://github.com/input-output-hk/jormungandr
 
 # The Commit hash to use (specific commit) to pull
-ENV REPO_VERSION 0.8.6
+ENV REPO_VERSION 0.8.7
 
 # Genesis config information
 ENV GENESIS_HASH 8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676
