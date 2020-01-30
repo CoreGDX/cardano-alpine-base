@@ -4,22 +4,36 @@ FROM alpine:3.11
 LABEL MAINTAINER CoreGDX-(DavidArayan)
 
 # The URL to clone the repository from
-ENV REPO https://github.com/input-output-hk/jormungandr
+ENV REPO="https://github.com/input-output-hk/jormungandr"
 
 # The Commit hash to use (specific commit) to pull
-ENV REPO_VERSION 0.8.7
+ENV REPO_VERSION="0.8.8"
 
 # Genesis config information
-ENV GENESIS_HASH 8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676
-ENV CONFIG_YAML_URL https://hydra.iohk.io/build/1561591/download/1/itn_rewards_v1-config.yaml
-ENV GENESIS_YAML_URL https://hydra.iohk.io/build/1561591/download/1/itn_rewards_v1-genesis.yaml
+# see https://hydra.iohk.io/job/Cardano/iohk-nix/jormungandr-deployment/latest-finished/download/1/index.html
+ENV BASE_URL="https://hydra.iohk.io/job/Cardano/iohk-nix/jormungandr-deployment/latest-finished/download/1"
+ENV CONFIG_YAML_URL="${BASE_URL}/itn_rewards_v1-config.yaml"
+ENV GENESIS_YAML_URL="${BASE_URL}/itn_rewards_v1-genesis.yaml"
 
 # Path to the protoc (protobuf) compiler - see https://github.com/protocolbuffers/protobuf
 # required by jormungandr_src/chain-deps/network-grpc 
-ENV PROTOC /usr/bin/protoc
+ENV PROTOC="/usr/bin/protoc"
 
 # Path to the base directory that we will work with
-ENV BASEDIR /usr/cardano/jormungandr
+ENV BASEDIR="/usr/cardano/jormungandr"
+
+# Update the environment path, this allows executing jormungandr and jcli directly
+ENV PATH="$PATH:${BASEDIR}/bin"
+
+# Easy access to the compiled executables from environment variables
+ENV JORMUNGANDR_PATH="${BASEDIR}/bin/jormungandr"
+ENV JCLI_PATH="${BASEDIR}/bin/jcli"
+
+# Easy access to the config information from environment variables
+ENV CONFIG_YAML_PATH="${BASEDIR}/config/config.yaml"
+ENV GENESIS_YAML_PATH="${BASEDIR}/config/genesis.yaml"
+ENV GENESIS_HASH_PATH="${BASEDIR}/config/genesis_hash.txt"
+ENV GENESIS_BLOCK_PATH="${BASEDIR}/config/block-0.bin"
 
 WORKDIR ${BASEDIR}
 
@@ -49,14 +63,17 @@ RUN apk add --update --no-cache \
 	cd ../ && \
 	mkdir bin && \
 	# copy the compiled binaries since we will purge the .cargo folder
-	cp -pR $HOME/.cargo/bin/jormungandr bin/jormungandr && \
-	cp -pR $HOME/.cargo/bin/jcli bin/jcli && \
+	cp -pR $HOME/.cargo/bin/jormungandr ${JORMUNGANDR_PATH} && \
+	cp -pR $HOME/.cargo/bin/jcli ${JCLI_PATH} && \
 	rm -rf src $HOME/.cargo && \
 	mkdir config && \
 	# download and save the config information needed to run the node
-	curl -o config/config.yaml ${CONFIG_YAML_URL} && \
-	curl -o config/genesis.yaml ${GENESIS_YAML_URL} && \
-	echo ${GENESIS_HASH} > config/genesis_hash.txt && \
+	# ensure curl follows redirects with the -L flag
+	curl -L -o ${CONFIG_YAML_PATH} ${CONFIG_YAML_URL} && \
+	curl -L -o ${GENESIS_YAML_PATH} ${GENESIS_YAML_URL} && \
+	# generate the genesis hash needed to launch jormungandr
+	jcli genesis encode --input ${GENESIS_YAML_PATH} --output ${GENESIS_BLOCK_PATH} && \
+	jcli genesis hash --input ${GENESIS_BLOCK_PATH} > ${GENESIS_HASH_PATH} && \
 	# cleanup caches and stuff used to compile the source
 	# so we can make the image as small as possible.
 	# containers extending can re-add them if needed
@@ -65,16 +82,9 @@ RUN apk add --update --no-cache \
 	rust \
 	cargo \
 	openssl-dev \
-	protobuf-dev
-
-# Update the environment path
-ENV PATH "$PATH:/usr/cardano/jormungandr/bin"
-
-# Easy access to the compiled executables from environment variables
-ENV JORMUNGANDR_PATH ${BASEDIR}/bin/jormungandr
-ENV JCLI_PATH ${BASEDIR}/bin/jcli
-
-# Easy access to the config information from environment variables
-ENV CONFIG_YAML_PATH ${BASEDIR}/config/config.yaml
-ENV GENESIS_YAML_PATH ${BASEDIR}/config/genesis.yaml
-ENV GENESIS_HASH_PATH ${BASEDIR}/config/genesis_hash.txt
+	protobuf-dev && \
+	# prints the genesis hash to confirm that its correct (check manually)
+	echo "**** CONFIG URL ****" && \
+	echo "${BASE_URL}/index.html" && \
+	echo "**** GENESIS HASH ****" && \
+	cat ${GENESIS_HASH_PATH}
