@@ -7,7 +7,7 @@ LABEL MAINTAINER CoreGDX-(DavidArayan)
 ENV REPO="https://github.com/input-output-hk/jormungandr"
 
 # The Commit hash to use (specific commit) to pull
-ENV REPO_VERSION="0.8.8"
+ENV REPO_VERSION="0.8.9"
 
 # Genesis config information
 # see https://hydra.iohk.io/job/Cardano/iohk-nix/jormungandr-deployment/latest-finished/download/1/index.html
