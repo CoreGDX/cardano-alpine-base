@@ -1,13 +1,12 @@
 # Ensure to use a version of alpine that supports
-# RUST 1.35 as a minimum
-FROM alpine:3.11
+FROM alpine:edge
 LABEL MAINTAINER CoreGDX-(DavidArayan)
 
 # The URL to clone the repository from
 ENV REPO="https://github.com/input-output-hk/jormungandr"
 
 # The Commit hash to use (specific commit) to pull
-ENV REPO_VERSION="0.8.9"
+ENV REPO_VERSION="0.8.10-2"
 
 # Genesis config information
 # see https://hydra.iohk.io/job/Cardano/iohk-nix/jormungandr-deployment/latest-finished/download/1/index.html
@@ -42,14 +41,15 @@ WORKDIR ${BASEDIR}
 # if Alpine updates. Get the latest version details from
 # https://pkgs.alpinelinux.org/packages
 RUN apk add --update --no-cache \
-	git=2.24.1-r0 \
-	curl=7.67.0-r0 \
-	rust=1.39.0-r0 \
-	cargo=1.39.0-r0 \
-	openssl=1.1.1d-r3 \
-	openssl-dev=1.1.1d-r3 \
-	protobuf=3.11.2-r0 \
-	protobuf-dev=3.11.2-r0 && \
+	git=2.25.0-r0 \
+	curl=7.68.0-r0 \
+	# RUST 1.41 as a minimum
+	rust=1.41.0-r1 \
+	cargo=1.41.0-r1 \
+	openssl=1.1.1d-r4 \
+	openssl-dev=1.1.1d-r4 \
+	protobuf=3.11.3-r0 \
+	protobuf-dev=3.11.3-r0 && \
 	# Pull the cardano-node repository, checkout the specific commit and build
 	git clone --depth 1 ${REPO} src && \
 	cd src && \
